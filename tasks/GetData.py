@@ -6,11 +6,13 @@
 # Created:     Feb 2021
 #-------------------------------------------------------------------------------
 
+from bs4 import BeautifulSoup
 import os
 import shutil
 import urllib.request as request
 from contextlib import closing
 from zipfile import ZipFile
+import csv
 
 
 def create_data_folder(dataPath):
@@ -40,9 +42,45 @@ def dl_fcc_data(dataPath):
 
 
 def dl_format(dataPath):
-    """ Downloads programming format data from Wikipedia """
+    """ Downloads programming format data from Wikipedia.  These will be scraped
+        from Wikipedia using BeautifulSoup.  Each format is loaded to a dictionary
+        then copied to a csv file that will be loaded to the database. """
+
+    def get_soup(url):
+        """ Returns a BeautifulSoup object for the input url """
+        page = request.urlopen(url)
+        html = page.read().decode("utf-8")
+        soup = BeautifulSoup(html, "html.parser")
+
+        return soup
+
     print("Downloading format data")
-    pass
+    formatList = [] # List of radio format dictionaries [{Callsign: str, Format: str}]
+
+    # Load formatList with radio station formats for each url in wikiUrls.txt
+    with open(os.path.dirname(os.path.abspath(__file__)) + '\wikiUrls.txt', 'r') as wikiUrls:
+        for url in wikiUrls.readlines():
+            print(f'Reading {url.strip()}')
+            soup = get_soup(url)
+            table = soup.table
+            tableRows = table.find_all('tr')
+            for tr in tableRows:
+                td = tr.find_all('td')
+                row = [d.text for d in td]
+                
+                if len(row) > 0:
+                    stationDict = {}
+                    stationDict['callsign'] = row[0]
+                    stationDict['format'] = row[-1][:-1]
+                    formatList.append(stationDict)
+    
+    # Save formatList as csv file in data folder
+    outputCSV = f'{dataPath}\\formats.csv'
+    with open(outputCSV, 'w', newline='') as csvFile:
+        fieldnames = ['callsign', 'format']
+        writer = csv.DictWriter(csvFile, fieldnames)
+        writer.writeheader()
+        writer.writerows(formatList)
 
 
 def download_data():
@@ -61,5 +99,6 @@ def download_data():
 
 
 if __name__ == "__main__":
-    download_data()
+    dataPath = os.path.dirname(os.path.abspath(__file__)) + '\data'
+    dl_format(dataPath)
 
