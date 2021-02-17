@@ -22,9 +22,22 @@ def create_data_folder(dataPath):
     print("Done\n")
 
 
-def dl_fcc_data(dataPath):
+def dl_fm_query(dataPath):
+    """ Downloads radio station data from the FCC's FM Query tool """
+    print("Downloading FM Query Data")
+
+    fmQueryUrl = "https://transition.fcc.gov/fcc-bin/fmq?call=&fileno=&state=&city=&freq=0.0&fre2=107.9&serv=FM&status=3&facid=&asrn=&class=&list=4&NextTab=Results+to+Next+Page%2FTab&dist=&dlat2=&mlat2=&slat2=&NS=N&dlon2=&mlon2=&slon2=&EW=W&size=9"
+    
+    outputPath = f"{dataPath}\\fmQuery.txt"
+    with open(outputPath, 'w') as file:
+        file.write(request.urlopen(fmQueryUrl).read().decode())
+    print("Done\n")
+
+
+def dl_service_contours(dataPath):
     """ Downloads service contour data from FCC """
-    print("Downloading FCC Data")
+    print("Downloading Service Contour Data")
+rea
     dataURL = "ftp://ftp.fcc.gov/pub/Bureaus/MB/Databases/fm_service_contour_data/FM_service_contour_current.zip"
     filePath = f"{dataPath}\\FM_service_contour_current.zip"
 
@@ -33,8 +46,6 @@ def dl_fcc_data(dataPath):
             shutil.copyfileobj(r, f)
 
     print("Unzipping Data")
-    # zFile = ZipFile(f'{dataPath}\FM_service_contour_current.zip')
-    # filePath = r'C:\Users\danie\Desktop\GEOG 778\GEOG-778\tasks\data\FC_service_contour_current.zip'
     with ZipFile(filePath, 'r') as zFile:
         zFile.extractall(dataPath)
     
@@ -45,6 +56,7 @@ def dl_format(dataPath):
     """ Downloads programming format data from Wikipedia.  These will be scraped
         from Wikipedia using BeautifulSoup.  Each format is loaded to a dictionary
         then copied to a csv file that will be loaded to the database. """
+    print("Downloading format data")
 
     def get_soup(url):
         """ Returns a BeautifulSoup object for the input url """
@@ -54,7 +66,7 @@ def dl_format(dataPath):
 
         return soup
 
-    print("Downloading format data")
+    
     formatList = [] # List of radio format dictionaries [{Callsign: str, Format: str}]
 
     # Load formatList with radio station formats for each url in wikiUrls.txt
@@ -100,5 +112,4 @@ def download_data():
 
 if __name__ == "__main__":
     dataPath = os.path.dirname(os.path.abspath(__file__)) + '\data'
-    dl_format(dataPath)
-
+    dl_fm_query(dataPath)
