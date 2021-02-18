@@ -37,7 +37,7 @@ def dl_fm_query(dataPath):
 def dl_service_contours(dataPath):
     """ Downloads service contour data from FCC """
     print("Downloading Service Contour Data")
-rea
+
     dataURL = "ftp://ftp.fcc.gov/pub/Bureaus/MB/Databases/fm_service_contour_data/FM_service_contour_current.zip"
     filePath = f"{dataPath}\\FM_service_contour_current.zip"
 
@@ -106,10 +106,13 @@ def download_data():
     create_data_folder(dataPath)
 
     # Download data
-    dl_fcc_data(dataPath)
+    dl_fm_query(dataPath)
+    dl_service_contours(dataPath)
     dl_format(dataPath)
 
 
 if __name__ == "__main__":
     dataPath = os.path.dirname(os.path.abspath(__file__)) + '\data'
-    dl_fm_query(dataPath)
+    print(dataPath)
+    print(os.path.abspath(__file__))
+    print(os.getcwd())
