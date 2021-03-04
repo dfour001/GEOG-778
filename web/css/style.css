@@ -39,7 +39,7 @@ h3 {
 }
 
 .title--splashscreen {
-    height: 75vh;
+    height: 100vh;
     max-height: 75vh;
     padding-top: 25vh;
     box-shadow: inset 0px -15px 10px -10px rgba(0,0,0,0);
@@ -94,9 +94,6 @@ h3 {
     transform: translateY(-50%);
 }
 
-.warningBox--splashscreen p {
-    
-}
 
 .warningBox__warning {
     color: yellow;

@@ -81,10 +81,12 @@ def dl_format(dataPath):
                 row = [d.text for d in td]
                 
                 if len(row) > 0:
-                    stationDict = {}
-                    stationDict['callsign'] = row[0]
-                    stationDict['format'] = row[-1][:-1]
-                    formatList.append(stationDict)
+                    freq = row[1]
+                    if 'AM' not in freq: # Filter out AM stations
+                        stationDict = {}
+                        stationDict['callsign'] = row[0]
+                        stationDict['format'] = row[-1][:-1]
+                        formatList.append(stationDict)
     
     # Save formatList as csv file in data folder
     outputCSV = f'{dataPath}\\formats.csv'
@@ -113,6 +115,4 @@ def download_data():
 
 if __name__ == "__main__":
     dataPath = os.path.dirname(os.path.abspath(__file__)) + '\data'
-    print(dataPath)
-    print(os.path.abspath(__file__))
-    print(os.getcwd())
+    dl_format(dataPath)

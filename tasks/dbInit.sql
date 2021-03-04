@@ -3,13 +3,10 @@ DROP TABLE IF EXISTS servicecontours;
 DROP TABLE IF EXISTS stations;
 
 CREATE TABLE Stations (
-  callsign varchar PRIMARY KEY,
+  callsign varchar,
   frequency varchar,
   service varchar,
   directional varchar,
-  operation varchar,
-  stationClass varchar,
-  intStationClass varchar,
   fmStatus varchar,
   city varchar,
   state varchar,
@@ -19,7 +16,7 @@ CREATE TABLE Stations (
   erpVertical varchar,
   haatHorizonal varchar,
   haatVertical varchar,
-  ID int,
+  ID varchar,
   lat varchar,
   latD double precision,
   latM double precision,
@@ -42,6 +39,6 @@ CREATE TABLE ServiceContours (
 );
 
 CREATE TABLE Formats (
-  callsign varchar PRIMARY KEY,
+  callsign varchar,
   format varchar
 );
