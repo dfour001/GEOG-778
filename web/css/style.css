@@ -1,0 +1,86 @@
+h1, h2 {
+    font-family: 'Red Rose';
+}
+
+h3 {
+    font-family: 'roboto';
+}
+
+.title {
+    text-align: left;
+    background-color: rgba(0,0,0,0.5);
+    margin: 0px;
+    padding-left: 25px;
+    padding-top: 0px;
+    max-height: 100vh;
+    height: 7.5vh;
+    transition: all 1.5s;
+    color: white;
+    box-shadow: inset 0px -15px 10px -10px rgba(0,0,0,0.75);
+}
+
+.title--splashscreen {
+    height: 75vh;
+    max-height: 75vh;
+    padding-top: 20vh;
+    box-shadow: inset 0px -15px 10px -10px rgba(0,0,0,0);
+}
+
+.title__mainTitle {
+    font-size: 5vh;
+    transition: all 1.5s;
+}
+
+.title__mainTitle--splashscreen {
+    font-size: 10vw;
+}
+
+.title__subtitle {
+    font-size: 5.5vw;
+    margin-top: -10px;
+    visibility: hidden;
+    transition: all 1.5s;
+    opacity: 0;
+}
+
+.title__subtitle--splashscreen {
+    font-size: 5.5vw;
+    visibility: visible;
+    opacity: 1;
+}
+
+.warningBox {
+    text-align: center;
+    font-size: 1.25em;
+    background-color: rgba(0,0,0,0.75);
+    position: fixed;
+    width: 100vw;
+    height: 10vh;
+    bottom: 0px;
+    max-height: 100vh;
+    transition: all 1.5s;
+    color: white;
+    box-shadow: inset 0px 15px 10px -10px rgba(0,0,0,0.75);
+}
+
+.warningBox--splashscreen {
+    height: 25vh;
+    box-shadow: inset 0px -15px 10px -10px rgba(0,0,0,0);
+}
+
+.warningBox p {
+    position: relative;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.warningBox--splashscreen p {
+    
+}
+
+.warningBox__warning {
+    color: yellow;
+}
+
+
+
