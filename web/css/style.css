@@ -6,29 +6,49 @@ h3 {
     font-family: 'roboto';
 }
 
+
+.background {
+    position: fixed;
+    width: 100vw;
+    height: 100vh;
+    z-index: -1;
+}
+/*
+.backgroundGradient {
+    background: linear-gradient(60deg, rgba(0,0,0,0.5) 25%, rgba(0,0,0 ,0) 100%),
+        linear-gradient(-45deg, rgba(44,64,107,0.25) 0%, rgba(44,64,107,0) 75%),
+        linear-gradient(60deg, rgba(156,189,219,1) 0%, rgba(90,141,196,1) 50%, rgba(50,80,144,1) 100%);
+    mix-blend-mode:overlay;
+}*/
+
+.backgroundTexture {
+    background-image: url(../img/clouds.jpg);
+}
+
 .title {
     text-align: left;
-    background-color: rgba(0,0,0,0.5);
+    background-color: rgba(0,0,0,0.25);
     margin: 0px;
     padding-left: 25px;
     padding-top: 0px;
     max-height: 100vh;
-    height: 7.5vh;
-    transition: all 1.5s;
+    height: 8.5vh;
+    transition: all 0.6s;
     color: white;
-    box-shadow: inset 0px -15px 10px -10px rgba(0,0,0,0.75);
+    box-shadow: inset 0px -15px 10px -10px rgba(0,0,0,0.3);
 }
 
 .title--splashscreen {
     height: 75vh;
     max-height: 75vh;
-    padding-top: 20vh;
+    padding-top: 25vh;
     box-shadow: inset 0px -15px 10px -10px rgba(0,0,0,0);
 }
 
 .title__mainTitle {
     font-size: 5vh;
-    transition: all 1.5s;
+    transition: all 0.6s;
+    padding-top:7px;
 }
 
 .title__mainTitle--splashscreen {
@@ -39,7 +59,7 @@ h3 {
     font-size: 5.5vw;
     margin-top: -10px;
     visibility: hidden;
-    transition: all 1.5s;
+    transition: all 0.25s;
     opacity: 0;
 }
 
@@ -52,15 +72,15 @@ h3 {
 .warningBox {
     text-align: center;
     font-size: 1.25em;
-    background-color: rgba(0,0,0,0.75);
+    background-color: rgba(0,0,0,0.5);
     position: fixed;
     width: 100vw;
     height: 10vh;
     bottom: 0px;
     max-height: 100vh;
-    transition: all 1.5s;
+    transition: all 0.6s;
     color: white;
-    box-shadow: inset 0px 15px 10px -10px rgba(0,0,0,0.75);
+    box-shadow: inset 0px 15px 10px -10px rgba(0,0,0,0.3);
 }
 
 .warningBox--splashscreen {
