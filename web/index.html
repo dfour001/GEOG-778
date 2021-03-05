@@ -19,15 +19,21 @@
 
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
     <!-- Link to your css file -->
     <link rel="stylesheet" href="css/style.css">
-
 </head>
 
 <body>
     <!-- Background -->
     <div class="background backgroundTexture"></div>
     <div class="background backgroundGradient"></div>
+    
+    <!-- Loading Icon -->
+    <div id="Loading">
+        <div class="lds-ripple"><div></div><div></div></div>
+        <h4>Loading...</h4>
+    </div>
 
     <!-- Splash Screen / Title Bar -->
     <div class="title title--splashscreen">
@@ -38,9 +44,16 @@
         <p><span class="warningBox__warning">WARNING</span> - Not for use while driving</p>
     </div>
 
-    <div class="container">
+    <!-- Location Setup -->
+    <div id="locationSetup" class="container">
+        <form id="formLocation">
+            <div class="formLocation">
+                <label for="txtLocation">Enter location to find FM stations:</label><br>
+                <input id="txtLocation" type="text" class="formLocation__txtLocation" name="txtLocation"><input type="submit" id="btnLocation" class="formLocation__btnGo" value="Go">
+            </div>
+        </form>
 
-
+        <div id="btnMyLocation"><p>Use my current location</p></div>
     </div>
 
     <!-- Coding End -->
@@ -61,15 +74,15 @@
                 document.write("<link rel='stylesheet' href='css/day.css' type='text/css'>");
                 return
             }
-            if (16 <= currentTime && currentTime < 22) {
+            if (16 <= currentTime && currentTime < 20) {
                 document.write("<link rel='stylesheet' href='css/twilight.css' type='text/css'>");
                 return
             }
-            if (22 <= currentTime && currentTime <= 24) {
-                document.write("<link rel='stylesheet' href='css/twilight.css' type='text/css'>");
+            if (20 <= currentTime && currentTime <= 24) {
+                document.write("<link rel='stylesheet' href='css/night.css' type='text/css'>");
                 return
             }
-            
+
             // Fallback write day.css
             document.write("<link rel='stylesheet' href='css/day.css' type='text/css'>");
         }
