@@ -1,5 +1,5 @@
 body {
-    overflow: hidden;
+    overflow: auto;
 }
 
 h1, h2, h4 {
@@ -13,6 +13,8 @@ h3 {
 
 .background {
     position: fixed;
+    top: 0px;
+    left: 0px;
     width: 100vw;
     height: 100vh;
     z-index: -1;
@@ -72,6 +74,10 @@ h3 {
 
 
 .title {
+    position: fixed;
+    top: 0px;
+    width: 100vw;
+    
     text-align: left;
     background-color: rgba(0,0,0,0.25);
     margin: 0px;
@@ -115,7 +121,7 @@ h3 {
     opacity: 1;
 }
 
-.warningBox {
+.navBox {
     text-align: center;
     font-size: 1.25em;
     background-color: rgba(0,0,0,0.5);
@@ -134,7 +140,7 @@ h3 {
     box-shadow: inset 0px -15px 10px -10px rgba(0,0,0,0);
 }
 
-.warningBox p {
+.navBox p {
     position: relative;
     top: 50%;
     transform: translateY(-50%);
@@ -225,4 +231,77 @@ h3 {
     outline: none;
     background-color: rgba(255,255,255,0.65);
     box-shadow: inset 0px 5px 7px rgba(0,0,0,0.25);
+}
+
+#StationList {
+    display: none;
+    margin-top: calc(8.5vh + 25px);
+}
+
+
+.stationCard {
+    height: auto;
+    max-width: 700px;
+    margin: auto;
+    margin-top: 25px;
+    background-color: rgba(255,255,255,0.05);
+    border-bottom-left-radius: 25px;
+    border-top-right-radius: 3rem;
+    border-bottom-right-radius: 3rem;
+    color: white;
+    font-family: "roboto";
+    font-size: 1.25em;
+}
+
+.stationCard__main {
+    height: 6rem;
+    background-color: rgba(255,255,255,0.1);
+    border-bottom-left-radius: 25px;
+    border-top-right-radius: 3rem;
+    border-bottom-right-radius: 3rem;
+    padding: 15px;
+    padding-left: 25px;
+    position: relative;
+}
+
+.stationCard__freq {
+    margin: 0px;
+}
+
+.stationCard__callsign {
+    position: absolute;
+    top: 50%;
+    right: 50%;
+    transform: translate(50%, -50%);
+    font-size: 4.5rem;
+    font-weight: bold;
+    color: rgba(0,0,0,0.25);
+    z-index: -1;
+}
+
+.stationCard__info {
+    position: absolute;
+    width: 3.5rem;
+    height: 3.5rem;
+    border-radius: 2.5rem;
+    background-color: rgba(255,255,255,0.25);
+    box-shadow: inset -2px -2px 10px rgba(0,0,0,0.25), inset 2px 2px 10px rgba(255,255,255,0.17);
+    text-align: center;
+    line-height: 3.5rem;
+    cursor: pointer;    
+    top: 50%;
+    right: 1.5rem;
+    transform: translateY(-50%) rotate(180deg);
+    transition: transform 0.25s;
+}
+
+.stationCard__info--active {
+    transform: translateY(-50%) rotate(0deg);
+}
+
+.stationCard__details {
+    font-size: 1em;
+    padding: 15px;
+    padding-left: 25px;
+    visibility: 
 }

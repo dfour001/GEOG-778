@@ -1,35 +1,42 @@
 [
     {
+        "id": "1",
         "frequency": "88.1 FM",
         "callsign": "WRIH",
         "format": "Religioius"
     },
     {
+        "id": "2",
         "frequency": "88.9 FM",
         "callsign": "WCVE",
         "format": "Public Radio"
     },
     {
+        "id": "3",
         "frequency": "88.7 FM",
         "callsign": "WRIQ",
         "format": "Public Radio"
     },
     {
+        "id": "4",
         "frequency": "90.1 FM",
         "callsign": "WDCE",
         "format": "College"
     },
     {
+        "id": "5",
         "frequency": "90.5 FM",
         "callsign": "WPER",
         "format": "Christian Contemporary"
     },
     {
+        "id": "6",
         "frequency": "91.1 FM",
         "callsign": "WHCE",
         "format": "Grade School (K-12)"
     },
     {
+        "id": "7",
         "frequency": "91.7 FM",
         "callsign": "KAWZ",
         "format": "Religioius"

@@ -40,8 +40,8 @@
         <h1 class="title__mainTitle title__mainTitle--splashscreen">Frequency Finder</h1>
         <h2 class="title__subtitle title__subtitle--splashscreen">Your local FM guide</h2>
     </div>
-    <div class="warningBox warningBox--splashscreen">
-        <p><span class="warningBox__warning">WARNING</span> - Not for use while driving</p>
+    <div class="navBox warningBox--splashscreen">
+        <p id="lblWarning"><span class="warningBox__warning">WARNING</span> - Not for use while driving</p>
     </div>
 
     <!-- Location Setup -->
@@ -56,7 +56,26 @@
         <div id="btnMyLocation"><p>Use my current location</p></div>
     </div>
 
-    <!-- Coding End -->
+    <!-- Radio Station List -->
+    <div id="StationList" class="container">
+        <!--
+        <div class="stationCard">
+            <div class="stationCard__main">
+                <p class="stationCard__freq">88.9 FM - WCVE</p>
+                <p class="stationCard__format">Public Radio</p>
+                <p class="stationCard__info" data-ID="123">&#x25B2</p>
+            </div>
+            <div class="stationCard__details d-none" data-ID-Details="123">
+                <p>Additional</p>
+                <p>Data</p>
+                <p>About</p>
+                <p>This Station</p>
+                <p>Here</p>
+                <img src=img/map.jpg style="margin-left: 50%; transform: translateX(-50%);">
+            </div>
+        </div>
+        -->        
+    </div>
 
     <script>
         function getStylesheet() {
@@ -94,6 +113,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
 
+    <script src="js/objBuilder.js"></script>
     <script src="js/main.js"></script>
 </body>
 
