@@ -21,7 +21,18 @@ function init() {
     // Use my current location
     $('#btnMyLocation').on('click', myLocation);
 
+    // Filter button
+    $('#btnFilter').on('click', function () {
+        alert("This will show a list of all available formats (eg, Rock, Country, Public Radio, etc) along with the number of stations that match that format.  Clicking on a format will only show stations that match the selected format.  Only formats that are available in the selected location will be on the filter list.")
+    });
 
+    // New Location button
+    $('#btnNew').on('click', newLocation);
+
+    // About button
+    $('#btnAbout').on('click', function () {
+        alert("This will show a page that says a little bit about the project, where the data comes from, etc.")
+    });
 }
 
 
@@ -41,23 +52,24 @@ function get_stations(lat, lng) {
         url: 'test.json',
         dataType: 'json',
         success: function (r) {
-            console.log(r);
-            
-            
+
+
             for (i = 0; i < r.length; i++) {
                 let card = build_station_card(r[i]);
                 $('#StationList').append(card);
             }
 
-            // Pause to simulate loading data during test
+            // Pause to simulate loading data during user test
+            // Remove for final product
             setTimeout(function () {
                 $('#Loading').fadeOut();
                 $('#StationList').fadeIn();
-            }, 3000);
-            
+                $('.navbar').css("display", "flex").hide().fadeIn();
+            }, 2000);
+
             // Add new event listeners:
             // Radio station info button
-            $('.stationCard__info').on('click', stationClick);
+            $('.stationCard__main').on('click', stationClick);
         },
         error: function (e) {
             console.log('ugh, error');
@@ -95,8 +107,24 @@ function stationClick(e) {
     // Station id
     id = $(this).data('id');
 
-    $(this).toggleClass('stationCard__info--active')
+    $('.stationCard__info', this).toggleClass('stationCard__info--active')
     $('[data-ID-Details = "' + id + '"]').toggleClass('d-none');
+}
+
+
+// New location search
+function newLocation() {
+    console.log('newLocation');
+    // Hide station list and clear resutls for next search
+    $('#StationList').fadeOut();
+    $('#StationList').children().remove();
+
+    
+    // Hide nav bars
+    $('navbar').fadeOut();
+    
+    // Show search bars
+    $('#locationSetup').fadeIn();
 }
 
 

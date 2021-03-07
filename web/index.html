@@ -40,8 +40,16 @@
         <h1 class="title__mainTitle title__mainTitle--splashscreen">Frequency Finder</h1>
         <h2 class="title__subtitle title__subtitle--splashscreen">Your local FM guide</h2>
     </div>
+    
+    <!-- Nav Box -->
     <div class="navBox warningBox--splashscreen">
         <p id="lblWarning"><span class="warningBox__warning">WARNING</span> - Not for use while driving</p>
+        
+        <nav class="navbar fixed-bottom navbar-dark">
+            <a id="btnFilter" class="nav-item" href="#!"><img src="img/filter.svg"><small>Filter</small></a>
+            <a id="btnNew" class="nav-item" href="#!"><img src="img/search.svg"><small>New Location</small></a>
+            <a id="btnAbout" class="nav-item" href="#!"><img src="img/about.svg"><small>About</small></a>
+        </nav>
     </div>
 
     <!-- Location Setup -->
@@ -76,6 +84,24 @@
         </div>
         -->        
     </div>
+    
+    <!-- Station Map Modal -->
+    <div class="modal fade" id="modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+       <div class="modal-dialog" role="document">
+         <div class="modal-content">
+            <div class="modal-header">
+               <h5 class="modal-title" id="exampleModalLabel">Radio Station Map - Needs style</h5>
+               <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            </div>
+            <div class="modal-body">
+               <img src="img/map.jpg">
+            </div>
+            <div class="modal-footer">
+               <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+         </div>
+      </div>
+   </div>
 
     <script>
         function getStylesheet() {

@@ -6,12 +6,6 @@
         "format": "Religioius"
     },
     {
-        "id": "2",
-        "frequency": "88.9 FM",
-        "callsign": "WCVE",
-        "format": "Public Radio"
-    },
-    {
         "id": "3",
         "frequency": "88.7 FM",
         "callsign": "WRIQ",
@@ -30,16 +24,22 @@
         "format": "Christian Contemporary"
     },
     {
-        "id": "6",
-        "frequency": "91.1 FM",
-        "callsign": "WHCE",
-        "format": "Grade School (K-12)"
-    },
-    {
         "id": "7",
         "frequency": "91.7 FM",
         "callsign": "KAWZ",
         "format": "Religioius"
+    },
+    {
+        "id": "8",
+        "frequency": "92.9 FM",
+        "callsign": "WBTL",
+        "format": "Classic Rock"
+    },
+    {
+        "id": "9",
+        "frequency": "98.1 FM",
+        "callsign": "WTVR",
+        "format": "Adult Contemporary"
     }
     
 ]
