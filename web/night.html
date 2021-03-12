@@ -57,7 +57,7 @@
         <form id="formLocation">
             <div class="formLocation">
                 <h4>Look up a list of FM stations within broadcasting range of your location.</h4>
-                <br><hr><br>
+                <br><br>
                 <label for="txtLocation">Enter location to find FM stations:</label><br>
                 <input id="txtLocation" type="text" class="formLocation__txtLocation" name="txtLocation"><input type="submit" id="btnLocation" class="formLocation__btnGo" value="Go">
             </div>
@@ -114,15 +114,15 @@
                 return
             }
             if (5 <= currentTime && currentTime < 11) {
-                document.write("<link rel='stylesheet' href='css/twilight.css' type='text/css'>");
+                document.write("<link rel='stylesheet' href='css/night.css' type='text/css'>");
                 return
             }
             if (11 <= currentTime && currentTime < 16) {
-                document.write("<link rel='stylesheet' href='css/day.css' type='text/css'>");
+                document.write("<link rel='stylesheet' href='css/night.css' type='text/css'>");
                 return
             }
             if (16 <= currentTime && currentTime < 20) {
-                document.write("<link rel='stylesheet' href='css/twilight.css' type='text/css'>");
+                document.write("<link rel='stylesheet' href='css/night.css' type='text/css'>");
                 return
             }
             if (20 <= currentTime && currentTime <= 24) {
@@ -131,7 +131,7 @@
             }
 
             // Fallback write day.css
-            document.write("<link rel='stylesheet' href='css/day.css' type='text/css'>");
+            document.write("<link rel='stylesheet' href='css/night.css' type='text/css'>");
         }
 
         getStylesheet();

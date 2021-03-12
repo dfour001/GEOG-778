@@ -11,6 +11,11 @@ h3 {
 }
 
 
+hr {
+    border-color: rgba(255,255,255,0.05);
+}
+
+
 .background {
     position: fixed;
     top: 0px;
@@ -182,6 +187,7 @@ h3 {
 
 #locationSetup {
     display: none;
+    margin-bottom: 15vh;
 }
 
 
@@ -190,7 +196,7 @@ h3 {
     font-family: "Roboto";
     text-align: center;
     margin: auto;
-    margin-top: 20vh;
+    margin-top: 15vh;    
 }
 
 #txtLocation {

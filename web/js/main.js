@@ -9,7 +9,7 @@ function init() {
         // Display location setup
         //$('#locationSetup').removeClass('d-none');
         $('#locationSetup').fadeIn();
-    }, 3000);
+    }, 2000);
 
     /////////////////////////
     // Set event listeners /

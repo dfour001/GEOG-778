@@ -17,6 +17,7 @@ CREATE TABLE Stations (
   haatHorizonal varchar,
   haatVertical varchar,
   ID varchar,
+  dist_40dBu double precision,
   lat varchar,
   latD double precision,
   latM double precision,

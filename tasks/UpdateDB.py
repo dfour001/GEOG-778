@@ -10,6 +10,7 @@ import psycopg2, psycopg2.extras
 import csv
 import json
 import os
+from requests import get, exceptions
 
 
 basePath = os.path.dirname(os.path.abspath(__file__))
@@ -55,6 +56,7 @@ class Station:
         self.lngM = float(data['lngM'])
         self.lngS = float(data['lngS'])
         self.licensee = data['licensee']
+        self.dist_40dBu = self.get_CURVES_distance(40, self.haatHorizonal, self.erpHorizontal)
 
     def as_tuple(self):
         """ Returns data as tuple to be consumed by psycopg2's
@@ -62,9 +64,43 @@ class Station:
         return (self.callsign,self.frequency,self.service,self.directional,
                 self.fmStatus,self.city,self.state,self.country,
                 self.fileNumber,self.erpHorizontal,self.erpVertical,
-                self.haatHorizonal,self.haatVertical,self.ID,self.lat,
-                self.latD,self.latM,self.latS,self.lng,self.lngD,self.lngM,
-                self.lngS,self.licensee)
+                self.haatHorizonal,self.haatVertical,self.ID,self.dist_40dBu,
+                self.lat,self.latD,self.latM,self.latS,self.lng,self.lngD,
+                self.lngM,self.lngS,self.licensee)
+
+    def get_CURVES_distance(self, dBu, HAAT, ERP):
+        """ Uses the CURVES api from the FCC to estimate the distance
+            that the FM signal will decay to the input dBu value, given
+            the Hight Above Average Terrain (HAAT) and Effective Radiation 
+            Power (ERP).  Returns the distance in KM.
+
+            Inputs:
+                dBu - Field strength to which the distance will be estimated
+                HAAT - Hight above average terrain
+                ERP - Effective radiation power
+        """
+
+        try:
+            # If erpHorizontal is invalid, try vertical
+            if '-' in ERP:
+                ERP = self.erpVertical
+
+            # Strip the units
+            ERP = ERP.split(' ')[0]
+
+            url = f'https://geo.fcc.gov/api/contours/distance.json?computationMethod=0&serviceType=fm&haat={HAAT}&field={dBu}&erp={ERP}&curve=0&outputcache=true'
+            r = get(url)
+            r.raise_for_status()
+            rDict = json.loads(r.text)
+            distance = rDict['distance']
+
+            return distance
+
+        except exceptions.HTTPError as e:
+            print(f'Error on ')
+            print(e)
+            return None
+
 
 
 class ServiceContour:
@@ -129,38 +165,39 @@ def update_db():
 
         # Load values as list of tuples
         values = []
-        for line in file.readlines():
-                row = line.split("|")
-                try:
-                    data = {
-                        "callsign": row[1].strip(),
-                        "frequency": row[2].strip(),
-                        "service": row[3].strip(),
-                        "directional": row[5].strip(),
-                        "fmStatus": row[9].strip(),
-                        "city": row[10].strip(),
-                        "state": row[11].strip(),
-                        "country": row[12].strip(),
-                        "fileNumber": row[13].strip(),
-                        "erpHorizontal": row[14].strip(),
-                        "erpVertical": row[15].strip(),
-                        "haatHorizonal": row[16].strip(),
-                        "haatVertical": row[17].strip(),
-                        "ID": row[18].strip(),
-                        "lat": row[19].strip(),
-                        "latD": row[20].strip(),
-                        "latM": row[21].strip(),
-                        "latS": row[22].strip(),
-                        "lng": row[23].strip(),
-                        "lngD": row[24].strip(),
-                        "lngM": row[25].strip(),
-                        "lngS": row[26].strip(),
-                        "licensee": row[27].strip()
-                    }
-                    station = Station(data)
-                    values.append(station.as_tuple())
-                except:
-                    print(f'    Error on {row}')
+        for i, line in enumerate(file.readlines()):
+            row = line.split("|")
+            try:
+                data = {
+                    "callsign": row[1].strip(),
+                    "frequency": row[2].strip(),
+                    "service": row[3].strip(),
+                    "directional": row[5].strip(),
+                    "fmStatus": row[9].strip(),
+                    "city": row[10].strip(),
+                    "state": row[11].strip(),
+                    "country": row[12].strip(),
+                    "fileNumber": row[13].strip(),
+                    "erpHorizontal": row[14].strip(),
+                    "erpVertical": row[15].strip(),
+                    "haatHorizonal": row[16].strip(),
+                    "haatVertical": row[17].strip(),
+                    "ID": row[18].strip(),
+                    "lat": row[19].strip(),
+                    "latD": row[20].strip(),
+                    "latM": row[21].strip(),
+                    "latS": row[22].strip(),
+                    "lng": row[23].strip(),
+                    "lngD": row[24].strip(),
+                    "lngM": row[25].strip(),
+                    "lngS": row[26].strip(),
+                    "licensee": row[27].strip()
+                }
+                station = Station(data)
+                values.append(station.as_tuple())
+            except:
+                print(f'    Error on {row}')
+            
 
         # Insert values list to stations table
         sql = "insert into stations values %s"
@@ -171,7 +208,6 @@ def update_db():
     # Load service contours
 
 
-    # Load service radii
 
 
     # Load formats
