@@ -56,6 +56,7 @@ class Station:
         self.lngM = float(data['lngM'])
         self.lngS = float(data['lngS'])
         self.licensee = data['licensee']
+        # self.dist_40dBu = None # For testing
         self.dist_40dBu = self.get_CURVES_distance(40, self.haatHorizonal, self.erpHorizontal)
 
     def as_tuple(self):
@@ -97,19 +98,45 @@ class Station:
             return distance
 
         except exceptions.HTTPError as e:
-            print(f'Error on ')
+            print(f'Error on {self.ID} {self.frequency} {self.callsign}')
             print(e)
             return None
 
 
-
-class ServiceContour:
+class ServiceContour():
     def __init__(self, data):
-        pass
+        self.id = data["ID"]
+        self.service = data["service"]
+        self.geom = self.create_geom(data["coords"])
 
     def as_tuple(self):
         """ Returns data as tuple to be consumed by psycopg2's
             execute_values function """
+        return (self.id, self.service, self.geom)
+
+    def create_geom(self, coords):
+        # Create a list of coordinates in this format: 'lat lng' to
+        # build a wkt linestring
+        coordList = []
+        for coord in coords:
+            try:
+                c = coord.split(',')
+                coordList.append(f'{c[1].strip()} {c[0].strip()}')
+            except:
+                pass
+
+        # Build wkt linestring
+        outputCoords = ''
+        for coord in coordList:
+            outputCoords += f'{coord}, '
+        
+        # Must end on same coord as begin
+        outputCoords += f'{coordList[0]}'
+
+        outputWKT = f'LINESTRING({outputCoords})'
+        outputGEOM = f"ST_Polygon('{outputWKT}'::geometry, 4326)"
+        
+        return outputWKT        
 
 
 class Format:
@@ -160,6 +187,7 @@ def update_db():
     cur.execute(dbInit)
 
     # Load stations data
+    """ Commented out to skip FCC calculations for testing
     with open(fmQueryPath, 'r') as file:
         print("Loading stations data...")
 
@@ -196,17 +224,41 @@ def update_db():
                 station = Station(data)
                 values.append(station.as_tuple())
             except:
-                print(f'    Error on {row}')
+                # print(f'    Error on {row}')
+                continue
             
 
         # Insert values list to stations table
         sql = "insert into stations values %s"
         psycopg2.extras.execute_values(cur, sql, values)
         print("Done\n")
-
+    """
 
     # Load service contours
+    with open(serviceContoursPath, 'r') as file:
+        print("Loading service contours...")
+        # Load values as list of tuples
+        values = []
+        for i, line in enumerate(file.readlines()[1:]):
+            try:
+                row = line.split("|")
+                data = {
+                    "ID": row[0].strip(),
+                    "service": row[1].strip(),
+                    "coords": row[5:-1]
+                }
+                record = ServiceContour(data)
+                values.append(record.as_tuple())
 
+                
+            except:
+                print(f'Error on {row}.')
+
+        # Insert values list to stations table
+        sql = "insert into servicecontours (applicationid, service, wtk) values %s"
+        psycopg2.extras.execute_values(cur, sql, values)
+        cur.execute('update servicecontours set geom = ST_Transform(ST_Polygon(wtk::geometry, 4326),5069);')
+        print("Done\n")
 
 
 

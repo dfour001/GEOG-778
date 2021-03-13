@@ -30,12 +30,13 @@ CREATE TABLE Stations (
 );
 
 CREATE TABLE ServiceContours (
-  applicationID int PRIMARY KEY,
+  applicationID int,
   service varchar,
   lmsApplication varchar,
   dtsSiteNumber varchar,
   transmitterLat double precision,
   transmitterLng double precision,
+  wtk varchar,
   geom Geometry
 );
 
