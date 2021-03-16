@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <title>GEOG 778</title>
+
+    <link rel="shortcut icon" href="" type="image/x-icon">
+    <link rel="apple-touch-icon" href="">
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Red+Rose:wght@400;700&family=Roboto&display=swap" rel="stylesheet">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+    <!-- Link to your css file -->
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+    <!-- Background -->
+    <div class="background backgroundTexture"></div>
+    <div class="background backgroundGradient"></div>
+    
+    <!-- Loading Icon -->
+    <div id="Loading">
+        <div class="lds-ripple"><div></div><div></div></div>
+        <h4>Loading...</h4>
+    </div>
+
+    <!-- Splash Screen / Title Bar -->
+    <div class="title title--splashscreen">
+        <h1 class="title__mainTitle title__mainTitle--splashscreen">Frequency Finder</h1>
+        <h2 class="title__subtitle title__subtitle--splashscreen">Your local FM guide</h2>
+    </div>
+    
+    <!-- Nav Box -->
+    <div class="navBox warningBox--splashscreen">
+        <p id="lblWarning"><span class="warningBox__warning">WARNING</span> - Not for use while driving</p>
+        
+        <nav class="navbar fixed-bottom navbar-dark">
+            <a id="btnFilter" class="nav-item" href="#!"><img src="img/filter.svg"><br><small>Filter</small></a>
+            <a id="btnNew" class="nav-item" href="#!"><img src="img/search.svg"><br><small>New Location</small></a>
+            <a id="btnAbout" class="nav-item" href="#!"><img src="img/about.svg"><br><small>About</small></a>
+        </nav>
+    </div>
+
+    <!-- Location Setup -->
+    <div id="locationSetup" class="container">
+        <form id="formLocation">
+            
+            <div class="formLocation">
+                <h4>Look up a list of FM stations within broadcasting range of your location.</h4>
+                <br><br>
+                <label for="txtLocation">Enter location to find FM stations:</label><br>
+                <input id="txtLocation" type="text" class="formLocation__txtLocation" name="txtLocation"><input type="submit" id="btnLocation" class="formLocation__btnGo" value="Go">
+            </div>
+        </form>
+
+        <div id="btnMyLocation"><p>Use my current location</p></div>
+    </div>
+
+    <!-- Radio Station List -->
+    <div id="StationList" class="container">
+        <!--
+        <div class="stationCard">
+            <div class="stationCard__main">
+                <p class="stationCard__freq">88.9 FM - WCVE</p>
+                <p class="stationCard__format">Public Radio</p>
+                <p class="stationCard__info" data-ID="123">&#x25B2</p>
+            </div>
+            <div class="stationCard__details d-none" data-ID-Details="123">
+                <p>Additional</p>
+                <p>Data</p>
+                <p>About</p>
+                <p>This Station</p>
+                <p>Here</p>
+                <img src=img/map.jpg style="margin-left: 50%; transform: translateX(-50%);">
+            </div>
+        </div>
+        -->        
+    </div>
+    
+    <!-- Station Map Modal -->
+    <div class="modal fade" id="modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+       <div class="modal-dialog" role="document">
+         <div class="modal-content">
+            <div class="modal-header">
+               <h5 class="modal-title" id="exampleModalLabel">Radio Station Map - Needs style</h5>
+               <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            </div>
+            <div class="modal-body">
+               <img src="img/map.jpg">
+            </div>
+            <div class="modal-footer">
+               <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+         </div>
+      </div>
+   </div>
+
+    <script>
+        function getStylesheet() {
+            // Set css based on time of day
+            var currentTime = new Date().getHours();
+            if (0 <= currentTime && currentTime < 5) {
+                document.write("<link rel='stylesheet' href='css/twilight.css' type='text/css'>");
+                return
+            }
+            if (5 <= currentTime && currentTime < 11) {
+                document.write("<link rel='stylesheet' href='css/twilight.css' type='text/css'>");
+                return
+            }
+            if (11 <= currentTime && currentTime < 16) {
+                document.write("<link rel='stylesheet' href='css/twilight.css' type='text/css'>");
+                return
+            }
+            if (16 <= currentTime && currentTime < 20) {
+                document.write("<link rel='stylesheet' href='css/twilight.css' type='text/css'>");
+                return
+            }
+            if (20 <= currentTime && currentTime <= 24) {
+                document.write("<link rel='stylesheet' href='css/twilight.css' type='text/css'>");
+                return
+            }
+
+            // Fallback write day.css
+            document.write("<link rel='stylesheet' href='css/twilight.css' type='text/css'>");
+        }
+
+        getStylesheet();
+    </script>
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+
+    <script src="js/objBuilder.js"></script>
+    <script src="js/main.js"></script>
+</body>
+
+</html>

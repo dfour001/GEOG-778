@@ -42,6 +42,7 @@ class Station:
         self.state = data['state']
         self.country = data['country']
         self.fileNumber = data['fileNumber']
+        self.applicationID = data['applicationID']
         self.erpHorizontal = data['erpHorizontal']
         self.erpVertical = data['erpVertical']
         self.haatHorizonal = data['haatHorizonal']
@@ -64,7 +65,7 @@ class Station:
             execute_values function """
         return (self.callsign,self.frequency,self.service,self.directional,
                 self.fmStatus,self.city,self.state,self.country,
-                self.fileNumber,self.erpHorizontal,self.erpVertical,
+                self.fileNumber,self.applicationID,self.erpHorizontal,self.erpVertical,
                 self.haatHorizonal,self.haatVertical,self.ID,self.dist_40dBu,
                 self.lat,self.latD,self.latM,self.latS,self.lng,self.lngD,
                 self.lngM,self.lngS,self.licensee)
@@ -187,7 +188,7 @@ def update_db():
     cur.execute(dbInit)
 
     # Load stations data
-    """ Commented out to skip FCC calculations for testing
+    """ Commented out to skip FCC calculations for testing """
     with open(fmQueryPath, 'r') as file:
         print("Loading stations data...")
 
@@ -206,6 +207,7 @@ def update_db():
                     "state": row[11].strip(),
                     "country": row[12].strip(),
                     "fileNumber": row[13].strip(),
+                    "applicationID": row[-3].strip(),
                     "erpHorizontal": row[14].strip(),
                     "erpVertical": row[15].strip(),
                     "haatHorizonal": row[16].strip(),
@@ -232,7 +234,7 @@ def update_db():
         sql = "insert into stations values %s"
         psycopg2.extras.execute_values(cur, sql, values)
         print("Done\n")
-    """
+    """"""
 
     # Load service contours
     with open(serviceContoursPath, 'r') as file:
@@ -250,6 +252,7 @@ def update_db():
                 record = ServiceContour(data)
                 values.append(record.as_tuple())
 
+                
                 
             except:
                 print(f'Error on {row}.')

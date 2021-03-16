@@ -1,0 +1,6 @@
+.backgroundGradient {
+    background: linear-gradient(60deg, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0.5) 75%),
+        linear-gradient(-45deg, rgba(44,64,107,0.75) 0%, rgba(44,64,107,1) 75%),
+        linear-gradient(60deg, rgba(156,189,219,1) 0%, rgba(90,141,196,1) 50%, rgba(50,80,144,1) 100%);
+    mix-blend-mode:hard-light;
+}

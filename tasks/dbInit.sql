@@ -12,6 +12,7 @@ CREATE TABLE Stations (
   state varchar,
   country varchar,
   fileNumber varchar,
+  applicationID int,
   erpHorizontal varchar,
   erpVertical varchar,
   haatHorizonal varchar,
