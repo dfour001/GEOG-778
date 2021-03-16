@@ -49,24 +49,26 @@ function get_stations(lat, lng) {
 
     // Load station data
     $.ajax({
-        url: 'http://localhost:5000/37.27/-79.94',
-        dataType: 'json',
+        url: 'http://localhost:5000/' + lat + '/' + lng,
+        dataType: 'html',
         success: function (r) {
-
-
-            for (i = 0; i < r.length; i++) {
-                let card = build_station_card(r[i]);
-                $('#StationList').append(card);
-            }
+            // for (i = 0; i < r.length; i++) {
+            //     let card = build_station_card(r[i]);
+            //     $('#StationList').append(card);
+            // }
 
             // Pause to simulate loading data during user test
             // Remove for final product
-            setTimeout(function () {
-                $('#Loading').fadeOut();
-                $('#StationList').fadeIn();
-                $('.navbar').css("display", "flex").hide().fadeIn();
-            }, 2000);
-
+            // setTimeout(function () {
+            //     $('#Loading').fadeOut();
+            //     $('#StationList').fadeIn();
+            //     $('.navbar').css("display", "flex").hide().fadeIn();
+            // }, 2000);
+            console.log(r);
+            $('#StationList').html(r);
+            $('#Loading').fadeOut();
+            $('#StationList').fadeIn();
+            $('.navbar').css("display", "flex").hide().fadeIn();
             // Add new event listeners:
             // Radio station info button
             $('.stationCard__main').on('click', stationClick);
@@ -95,10 +97,18 @@ function submitLocation(e) {
 // Use my location
 function myLocation() {
     // Get user's location
-
-
-    // Get stations from the api
-    get_stations(0, 0);
+    let lat, lng;
+    if(!navigator.geolocation) {
+        alert('Geolocation is not supported by your browser');
+      } else {
+        navigator.geolocation.getCurrentPosition(function (p) {
+            let lat = p.coords.latitude;
+            let lng = p.coords.longitude;
+            get_stations(lat, lng);
+        }, function() {
+            alert("Unable to find your current location.  Try searching by text.");
+        });
+      }
 }
 
 

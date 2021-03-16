@@ -1,6 +1,7 @@
 from api import app, db
 from flask import jsonify, render_template
 import json
+from api.components import StationCard
 
 @app.route('/')
 def index():
@@ -8,10 +9,8 @@ def index():
 
 @app.route('/<lat>/<lng>')
 def get_statons(lat, lng):
-    # print(lat,lng)
-    # lat = 37.56
-    # lng = -77.53
     try:
+        print(f'lat: {lat}   lng: {lng}')
         sql = f"""select s.*, sc.within_service_contour from (
         select distinct on (s.callsign)
             s.applicationid,
@@ -43,8 +42,16 @@ def get_statons(lat, lng):
     order by cast(split_part(s.frequency, ' ', 1) as double precision) asc;
     """
         result = db.session.execute(sql)
-        r = [dict(r) for r in result]
-        r = jsonify(r)
-        return r
-    except:
+        stations = [dict(r) for r in result]
+
+        outputHTML = ''
+        for station in stations:
+            card = StationCard(station)
+            outputHTML += card.build_html()
+
+        return outputHTML
+
+
+    except Exception as e:
+        print(e)
         return {"Error": "Unable to return results"}
