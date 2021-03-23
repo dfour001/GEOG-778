@@ -52,23 +52,11 @@ function get_stations(lat, lng) {
         url: 'http://localhost:5000/' + lat + '/' + lng,
         dataType: 'html',
         success: function (r) {
-            // for (i = 0; i < r.length; i++) {
-            //     let card = build_station_card(r[i]);
-            //     $('#StationList').append(card);
-            // }
-
-            // Pause to simulate loading data during user test
-            // Remove for final product
-            // setTimeout(function () {
-            //     $('#Loading').fadeOut();
-            //     $('#StationList').fadeIn();
-            //     $('.navbar').css("display", "flex").hide().fadeIn();
-            // }, 2000);
-            console.log(r);
             $('#StationList').html(r);
             $('#Loading').fadeOut();
             $('#StationList').fadeIn();
             $('.navbar').css("display", "flex").hide().fadeIn();
+            
             // Add new event listeners:
             // Radio station info button
             $('.stationCard__main').on('click', stationClick);
@@ -88,10 +76,24 @@ function submitLocation(e) {
     loc = data[0].value;
 
     // Get coordinates of loc from API
-
-
-    // Get stations from the api
-    get_stations(0, 0);
+    let url = 'http://api.positionstack.com/v1/forward?access_key=4fc4bfdc142eea8b533f199ed953d029&query='+loc+'&limit=1';
+    $.ajax({
+        url: url,
+        dataType: 'JSON',
+        success: function(r) {
+            alert('something went right');
+            let data = r.data[0];
+            let lat = data.latitude;
+            let lng = data.longitude;
+            let label = data.label;
+            console.log(r);
+            console.log(data);
+            get_stations(lat, lng);
+        },
+        error: function(e) {
+            alert('something went wrong');
+        }
+    });
 }
 
 // Use my location
@@ -115,10 +117,34 @@ function myLocation() {
 // Info button in station card
 function stationClick(e) {
     // Station id
-    id = $(this).data('id');
+    let id = $(this).data('id');
 
+    // Open station details
     $('.stationCard__info', this).toggleClass('stationCard__info--active')
     $('[data-ID-Details = "' + id + '"]').toggleClass('d-none');
+
+    // Load station logo if available
+    let url = 'https://publicfiles.fcc.gov/api/manager/download/entity/logo/' + id + '/fm';
+    if ($('.logo-'+id).attr('src') == '') {
+        $.ajax({
+            url: url,
+            success: function(r, s) {
+                if (r.status == 'error') {
+                    $('.detailsList-'+id).animate({opacity:1}, 250);
+                } else {
+                    $('.logo-'+id).attr('src', url);
+                    $('.logo-'+id + '.stationCard__logo').animate({opacity: 1}, 250);
+                    $('.logo-'+id + '.stationCard__logo--blurred').animate({opacity: 0.3}, 250);
+                    $('.detailsList-'+id).animate({opacity:1}, 250);
+                }
+            },
+            error: function() {
+                console.log(':(');
+            }
+        })
+    } else {
+        console.log('lol no');
+    }
 }
 
 

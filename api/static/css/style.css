@@ -340,3 +340,46 @@ hr {
     padding-left: 25px;
     visibility: 
 }
+
+.stationCard__logoHolder {
+    text-align: center;
+    position: relative;
+}
+
+.stationCard__logo {
+    position: relative;
+    top: 0px;
+    margin: 15px;
+    max-width: 150px;
+    opacity: 0%;
+    border-bottom-left-radius: 15px;
+    border-bottom-right-radius: 15px;
+    border-top-right-radius: 15px;
+    z-index: 2;
+}
+
+.stationCard__logo--blurred {
+    position: absolute;
+    max-width: 150px;
+    filter: blur(25px);
+    opacity: 0%;
+    border-bottom-left-radius: 15px;
+    border-bottom-right-radius: 15px;
+    border-top-right-radius: 15px;
+    z-index: 1;
+}
+
+.stationCard__detailsList {
+    opacity: 0%;
+    transition: all 0.5s;
+    font-size: 1rem;
+}
+
+.stationCard__detailsList p {
+    margin-bottom: 0px;
+}
+
+.stationCard_btnMapHolder {
+    text-align: center;
+    margin: 15px;
+}

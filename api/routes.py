@@ -19,6 +19,7 @@ def get_statons(lat, lng):
             f.format,
             s.city,
             s.state,
+            s.licensee,
             s.dist_40dbu,
             s.id,
             s.lng, 
@@ -46,7 +47,7 @@ def get_statons(lat, lng):
 
         outputHTML = ''
         for station in stations:
-            card = StationCard(station)
+            card = StationCard(station, lat, lng)
             outputHTML += card.build_html()
 
         return outputHTML

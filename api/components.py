@@ -1,5 +1,5 @@
 class StationCard():
-    def __init__(self, data):
+    def __init__(self, data, userLat, userLng):
         self.id = data['id']
         self.applicationid = data['applicationid']
         self.frequency = data['frequency']
@@ -8,9 +8,13 @@ class StationCard():
         self.state = data['state']
         self.dist_40dbu = data['dist_40dbu']
         self.format = data['format']
+        self.licensee = data['licensee']
         self.within_service_contour = data['within_service_contour']
         self.lat = data['lat']
         self.lng = data['lng']
+        self.userLat = userLat
+        self.userLng = userLng
+        self.distance = 123
         self.geom = data['st_buffer']
         
     def build_html(self):
@@ -22,12 +26,22 @@ class StationCard():
                 <p class="stationCard__info">&#x25B2</p>
             </div>
             <div class="stationCard__details d-none" data-ID-Details="{self.id}">
-                <p>[HA]</p>
-                <p>[HA]</p>
-                <p>[HA]</p>
-                <p>[!]</p>
-                <p>[!]</p>
-                <button type="button" class="btn btn-light" data-toggle="modal" data-target="#modal" data-ID="{self.id}">View Map of Station</button>
+                <div class='row'>
+                    <div class="col-12 stationCard__logoHolder">
+                        <img class="logo-{self.id} stationCard__logo stationCard__logo--blurred" src=''>
+                        <img class="logo-{self.id} stationCard__logo" src=''>
+                    </div>
+                </div>
+                <div class='stationCard__detailsList detailsList-{self.id}'>
+                        <p>City: {self.city}</p>
+                        <p>State: {self.state}</p>
+                        <p>Distance: {self.distance}</p>
+                        <p>Licensee: {self.licensee.title()}</p>
+                        <div class="stationCard_btnMapHolder">
+                            <button type="button" class="btn btn-light stationCard__btnMap" data-toggle="modal" data-target="#modal" data-ID="{self.id}">View Map of Station</button>
+                        </div>
+                </div>
+                
             </div>
         </div>
         """

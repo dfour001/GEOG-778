@@ -6,6 +6,7 @@ select s.*, sc.within_service_contour from (
 		f.format,
 		s.city,
 		s.state,
+		s.licensee,
 		s.dist_40dbu,
 		s.id,
 		s.lng, 
