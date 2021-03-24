@@ -94,7 +94,7 @@ hr {
     color: white;
     box-shadow: inset 0px -15px 10px -10px rgba(0,0,0,0.3);
     
-    z-index: 1;
+    z-index: 2;
 }
 
 .title--splashscreen {
@@ -131,7 +131,7 @@ hr {
 .navBox {
     text-align: center;
     font-size: 1.25em;
-    background-color: rgba(0,0,0,0.75);
+    background-color: rgba(0,0,0,0.95);
     position: fixed;
     width: 100vw;
     height: 12vh;
@@ -140,7 +140,7 @@ hr {
     transition: all 0.6s;
     color: white;
     box-shadow: inset 0px 15px 10px -10px rgba(0,0,0,0.3);
-    z-index: 1;
+    z-index: 3;
 }
 
 .warningBox--splashscreen {
@@ -267,9 +267,23 @@ hr {
     box-shadow: inset 0px 5px 7px rgba(0,0,0,0.25);
 }
 
+
+.currentLocation {
+    margin: auto;
+    margin-top: calc(8.5vh + 25px);
+    color: rgba(0,0,0,0.5);
+    text-align: center;
+    font-variant: small-caps;
+}
+
+.currentLocation--white {
+    color: white;
+    font-variant: unset;
+}
+
+
 #StationList {
     display: none;
-    margin-top: calc(8.5vh + 25px);
     margin-bottom: 150px;
 }
 
@@ -338,7 +352,19 @@ hr {
     font-size: 1em;
     padding: 15px;
     padding-left: 25px;
-    visibility: 
+    padding-right: 25px;
+}
+
+.detailsHeading {
+    font-size: 0.75em;
+    font-family: 'Red Rose';
+    color: rgba(255,255,255,0.75);
+    font-variant: small-caps;
+    letter-spacing: 2.75px;
+}
+
+.detailsInfo {
+    margin-left: 10px;
 }
 
 .stationCard__logoHolder {
@@ -355,7 +381,7 @@ hr {
     border-bottom-left-radius: 15px;
     border-bottom-right-radius: 15px;
     border-top-right-radius: 15px;
-    z-index: 2;
+    z-index: 1;
 }
 
 .stationCard__logo--blurred {
@@ -382,4 +408,13 @@ hr {
 .stationCard_btnMapHolder {
     text-align: center;
     margin: 15px;
+}
+
+.stationCard__btnMap {
+    background-color: rgba(255,255,255,0.15);
+    color: white;
+    font-variant: all-small-caps;
+    border-bottom-right-radius: 15px;
+    border: 0px;
+    box-shadow: inset -5px -5px 5px rgba(255,255,255,0.1), inset 5px 5px 10px rgba(0,0,0,0.2);
 }

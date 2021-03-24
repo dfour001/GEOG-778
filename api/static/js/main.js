@@ -81,7 +81,6 @@ function submitLocation(e) {
         url: url,
         dataType: 'JSON',
         success: function(r) {
-            alert('something went right');
             let data = r.data[0];
             let lat = data.latitude;
             let lng = data.longitude;
@@ -122,19 +121,17 @@ function stationClick(e) {
     // Open station details
     $('.stationCard__info', this).toggleClass('stationCard__info--active')
     $('[data-ID-Details = "' + id + '"]').toggleClass('d-none');
-
+    $('.detailsList-'+id).animate({opacity:1}, 250);
     // Load station logo if available
     let url = 'https://publicfiles.fcc.gov/api/manager/download/entity/logo/' + id + '/fm';
     if ($('.logo-'+id).attr('src') == '') {
         $.ajax({
             url: url,
             success: function(r, s) {
-                if (r.status == 'error') {
-                    $('.detailsList-'+id).animate({opacity:1}, 250);
-                } else {
+                if (r.status != 'error') {
                     $('.logo-'+id).attr('src', url);
-                    $('.logo-'+id + '.stationCard__logo').animate({opacity: 1}, 250);
-                    $('.logo-'+id + '.stationCard__logo--blurred').animate({opacity: 0.3}, 250);
+                    $('.logo-'+id + '.stationCard__logo').animate({opacity: 1}, 750);
+                    $('.logo-'+id + '.stationCard__logo--blurred').animate({opacity: 0.3}, 750);
                     $('.detailsList-'+id).animate({opacity:1}, 250);
                 }
             },

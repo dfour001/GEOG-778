@@ -27,20 +27,23 @@ class StationCard():
             </div>
             <div class="stationCard__details d-none" data-ID-Details="{self.id}">
                 <div class='row'>
-                    <div class="col-12 stationCard__logoHolder">
+                    <div class="col-6">
+                        <div class='stationCard__detailsList detailsList-{self.id}'>
+                            <p class="detailsHeading">City:</p><p class="detailsInfo">{self.city.title()}</p>
+                            <p class="detailsHeading">State:</p><p class="detailsInfo">{self.state}</p>
+                            <p class="detailsHeading">Distance:</p><p class="detailsInfo">{self.distance}</p>
+                            <p class="detailsHeading">Licensee:</p><p class="detailsInfo">{self.licensee.title()}</p>
+                            <div class="stationCard_btnMapHolder">
+                                <button type="button" class="btn btn-light stationCard__btnMap" data-toggle="modal" data-target="#modal" data-ID="{self.id}">View Map of Station</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-6 stationCard__logoHolder">
                         <img class="logo-{self.id} stationCard__logo stationCard__logo--blurred" src=''>
                         <img class="logo-{self.id} stationCard__logo" src=''>
                     </div>
                 </div>
-                <div class='stationCard__detailsList detailsList-{self.id}'>
-                        <p>City: {self.city}</p>
-                        <p>State: {self.state}</p>
-                        <p>Distance: {self.distance}</p>
-                        <p>Licensee: {self.licensee.title()}</p>
-                        <div class="stationCard_btnMapHolder">
-                            <button type="button" class="btn btn-light stationCard__btnMap" data-toggle="modal" data-target="#modal" data-ID="{self.id}">View Map of Station</button>
-                        </div>
-                </div>
+                
                 
             </div>
         </div>

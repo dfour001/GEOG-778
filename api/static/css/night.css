@@ -4,3 +4,7 @@
         linear-gradient(60deg, rgba(156,189,219,1) 0%, rgba(90,141,196,1) 50%, rgba(50,80,144,1) 100%);
     mix-blend-mode:hard-light;
 }
+
+.currentLocation {
+    color: rgba(255,255,255,0.5);
+}
