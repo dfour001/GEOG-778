@@ -1,3 +1,5 @@
+from math import acos, sin, cos, radians as rad
+
 class StationCard():
     def __init__(self, data, userLat, userLng):
         self.id = data['id']
@@ -14,12 +16,31 @@ class StationCard():
         self.lng = data['lng']
         self.userLat = userLat
         self.userLng = userLng
-        self.distance = 123
+        self.distance = self.calculate_user_distance()
         self.geom = data['st_buffer']
         
+    def calculate_user_distance(self):
+        # Organize values and convert to radians
+        sinLat1 = sin(rad(float(self.userLat)))
+        sinLat2 = sin(rad(float(self.lat)))
+        cosLat1 = cos(rad(float(self.userLat)))
+        cosLat2 = cos(rad(float(self.lat)))
+
+        lng1 = rad(float(self.userLng))
+        lng2 = rad(float(self.lng))
+
+        # Calculate d
+        d = acos(sinLat1 * sinLat2 + cosLat1 * cosLat2 * cos(lng1 - lng2))
+
+        # Find distance in miles
+        mi = d * 3959
+
+        return round(mi, 2)
+
     def build_html(self):
+        formatClass = self.format.replace(" ", "_").replace("(", "").replace(")","") # To set the card's format for filtering
         template = f"""
-        <div class='stationCard'>
+        <div class='stationCard {formatClass}'>
             <div class='stationCard__main' data-ID="{self.id}">
                 <p class='stationCard__freq'><b>{self.frequency}</b> - {self.callsign}</p>
                 <p class='stationCard__format'>{self.format}</p>
@@ -31,7 +52,7 @@ class StationCard():
                         <div class='stationCard__detailsList detailsList-{self.id}'>
                             <p class="detailsHeading">City:</p><p class="detailsInfo">{self.city.title()}</p>
                             <p class="detailsHeading">State:</p><p class="detailsInfo">{self.state}</p>
-                            <p class="detailsHeading">Distance:</p><p class="detailsInfo">{self.distance}</p>
+                            <p class="detailsHeading">Distance:</p><p class="detailsInfo">{self.distance} mi</p>
                             <p class="detailsHeading">Licensee:</p><p class="detailsInfo">{self.licensee.title()}</p>
                             <div class="stationCard_btnMapHolder">
                                 <button type="button" class="btn btn-light stationCard__btnMap" data-toggle="modal" data-target="#modal" data-ID="{self.id}">View Map of Station</button>
@@ -49,3 +70,37 @@ class StationCard():
         </div>
         """
         return template
+
+class FilterList():
+    def __init__(self, formatCounter):
+        self.formatCounter = formatCounter
+        self.formatList = [key for key in self.formatCounter.keys()]
+        self.formatList.sort()
+    
+    def build_html(self):
+        itemTemplate = """
+        <p class="filterList__item" data-format="{formatClass}">{formatDisplay} <span class="badge badge-pill filterList__pill">{count}</span></p>
+        """
+
+        itemListHTML = """<p class="filterList__item" data-format="show_all">Show All Formats</p>"""
+        for key in self.formatList:
+            itemHTML = itemTemplate.replace("{formatClass}", key.replace("(", "").replace(")",""))
+            itemHTML = itemHTML.replace("{formatDisplay}", key.replace("_", " "))
+            itemHTML = itemHTML.replace("{count}", str(self.formatCounter[key]))
+            itemListHTML += itemHTML
+
+        return itemListHTML
+
+if __name__ == "__main__":
+    from collections import Counter
+    c = Counter()
+    
+    c['Rock'] = 4
+    c['Polka'] = 1
+    c['Classic_Rock'] = 1
+    c['Ragtime'] = 5
+    fl = FilterList(c)
+    print(c)
+    print(fl.build_html())
+    
+        

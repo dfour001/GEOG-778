@@ -23,7 +23,7 @@ function init() {
 
     // Filter button
     $('#btnFilter').on('click', function () {
-        alert("This will show a list of all available formats (eg, Rock, Country, Public Radio, etc) along with the number of stations that match that format.  Clicking on a format will only show stations that match the selected format.  Only formats that are available in the selected location will be on the filter list.")
+        $('#filterModal').modal('show');
     });
 
     // New Location button
@@ -36,10 +36,10 @@ function init() {
 }
 
 
-function get_stations(lat, lng) {
+function get_stations(lat, lng, locality="", state="") {
     // Calls the API to search for radio stations near input coordinates
     console.log('Getting radio station data for lat=' + lat + ' lng=' + lng);
-
+    console.log('in ' + locality + ', ' + state);
     // Hide formLocation if visible
     $('#locationSetup').hide();
     $('#lblWarning').hide();
@@ -49,17 +49,29 @@ function get_stations(lat, lng) {
 
     // Load station data
     $.ajax({
-        url: 'http://localhost:5000/' + lat + '/' + lng,
-        dataType: 'html',
+        url: lat + '/' + lng,
+        dataType: 'json',
         success: function (r) {
-            $('#StationList').html(r);
+            console.log(r);
+            let stationsHTML = r.stationsHTML;
+            let filterHTML = r.filterHTML;
+            // Set HTML from api return
+            $('#StationList').html(stationsHTML);
+            $('#FilterList').html(filterHTML)
+
+            // Adjust display of UI
             $('#Loading').fadeOut();
             $('#StationList').fadeIn();
             $('.navbar').css("display", "flex").hide().fadeIn();
+            $('.currentLocation--white').html(locality + ', ' + state);
+            $('#CurrentLocation').fadeIn()
             
             // Add new event listeners:
             // Radio station info button
             $('.stationCard__main').on('click', stationClick);
+
+            // Filter List Item
+            $('.filterList__item').on('click', filterItemClick);
         },
         error: function (e) {
             console.log('ugh, error');
@@ -68,7 +80,7 @@ function get_stations(lat, lng) {
     })
 }
 
-// Location form
+// Location search form
 function submitLocation(e) {
     e.preventDefault();
 
@@ -84,10 +96,13 @@ function submitLocation(e) {
             let data = r.data[0];
             let lat = data.latitude;
             let lng = data.longitude;
+            let locality = data.locality;
+            if (locality == null) {
+                locality = data.county;
+            }
+            let state = data.region_code;
             let label = data.label;
-            console.log(r);
-            console.log(data);
-            get_stations(lat, lng);
+            get_stations(lat, lng, locality, state);
         },
         error: function(e) {
             alert('something went wrong');
@@ -95,7 +110,7 @@ function submitLocation(e) {
     });
 }
 
-// Use my location
+// Use geolocation
 function myLocation() {
     // Get user's location
     let lat, lng;
@@ -105,7 +120,26 @@ function myLocation() {
         navigator.geolocation.getCurrentPosition(function (p) {
             let lat = p.coords.latitude;
             let lng = p.coords.longitude;
-            get_stations(lat, lng);
+            let url = "http://api.positionstack.com/v1/reverse?access_key=4fc4bfdc142eea8b533f199ed953d029&query=" + lat + "," + lng+"&limit=1";
+            $.get({
+                url: url,
+                dataType: "JSON",
+                success: function(r) {
+                    console.log(r);
+                    let data = r.data[0];
+                    let locality = data.locality;
+                    if (locality == null) {
+                        locality = data.county;
+                    }
+                    let state = data.region_code;
+                    get_stations(lat, lng, locality, state);
+                },
+                error: function() {
+                    console.log('error');
+                }
+            });
+            // get_stations(lat, lng);
+            // $('.title__mainTitle').html("Stations near " + lat.toFixed(2) + "," + lng.toFixed(2));
         }, function() {
             alert("Unable to find your current location.  Try searching by text.");
         });
@@ -140,8 +174,25 @@ function stationClick(e) {
             }
         })
     } else {
-        console.log('lol no');
+        console.log('No logo to load');
     }
+}
+
+// Filter Item List
+function filterItemClick(e) {
+    let filterFormat = $(this).data('format');
+
+    // Hide and show appropriate stations
+    if (filterFormat == 'show_all') {
+        $('.stationCard').fadeOut();
+        setTimeout(function() {$('.stationCard').fadeIn();}, 600);  
+    }
+    $('.stationCard').fadeOut();
+    setTimeout(function() {$('.' + filterFormat).fadeIn();}, 600);     
+
+    // Close filter modal
+    $('#filterModal').modal('hide');
+    console.log('.' + filterFormat);
 }
 
 
@@ -151,6 +202,7 @@ function newLocation() {
     // Hide station list and clear resutls for next search
     $('#StationList').fadeOut();
     $('#StationList').children().remove();
+    $('#CurrentLocation').fadeOut();
 
     
     // Hide nav bars

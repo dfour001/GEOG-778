@@ -1,7 +1,8 @@
 from api import app, db
 from flask import jsonify, render_template
 import json
-from api.components import StationCard
+from api.components import StationCard, FilterList
+from collections import Counter
 
 @app.route('/')
 def index():
@@ -9,7 +10,7 @@ def index():
 
 @app.route('/<lat>/<lng>')
 def get_statons(lat, lng):
-    try:
+    # try:
         print(f'lat: {lat}   lng: {lng}')
         sql = f"""select s.*, sc.within_service_contour from (
         select distinct on (s.callsign)
@@ -40,19 +41,30 @@ def get_statons(lat, lng):
             
         ) sc
         on s.applicationid = sc.applicationid
-    order by cast(split_part(s.frequency, ' ', 1) as double precision) asc;
-    """
+        order by cast(split_part(s.frequency, ' ', 1) as double precision) asc;
+        """
         result = db.session.execute(sql)
         stations = [dict(r) for r in result]
 
-        outputHTML = ''
+        # Format counter for filter. Used as input for creating FilterList
+        formatCounter = Counter()
+
+        stationsHTML = ''
         for station in stations:
             card = StationCard(station, lat, lng)
-            outputHTML += card.build_html()
+            stationsHTML += card.build_html()
+            formatCounter[station["format"].replace(' ', '_')] += 1
 
-        return outputHTML
+        filterList = FilterList(formatCounter)
+        filterHTML = filterList.build_html()
+
+        output = {
+            "stationsHTML": stationsHTML,
+            "filterHTML": filterHTML
+        }
+        return output
 
 
-    except Exception as e:
-        print(e)
-        return {"Error": "Unable to return results"}
+    # except Exception as e:
+    #     print(e)
+    #     return {"Error": "Unable to return results"}
