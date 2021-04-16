@@ -55,7 +55,7 @@ class StationCard():
                             <p class="detailsHeading">Distance:</p><p class="detailsInfo">{self.distance} mi</p>
                             <p class="detailsHeading">Licensee:</p><p class="detailsInfo">{self.licensee.title()}</p>
                             <div class="stationCard_btnMapHolder">
-                                <button type="button" class="btn btn-light stationCard__btnMap" data-toggle="modal" data-target="#modal" data-ID="{self.id}">View Map of Station</button>
+                                <button type="button" class="btn btn-light stationCard__btnMap" data-target="#mapModal" data-ID="{self.id}">View Map of Station</button>
                             </div>
                         </div>
                     </div>

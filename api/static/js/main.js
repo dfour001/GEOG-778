@@ -1,3 +1,5 @@
+var map;
+
 function init() {
     // Clear splashscreen after 3000 miliseconds
     setTimeout(function () {
@@ -10,6 +12,13 @@ function init() {
         //$('#locationSetup').removeClass('d-none');
         $('#locationSetup').fadeIn();
     }, 2000);
+
+    ////////////////////////
+    // Start Leaflet Map //
+    //////////////////////
+    map = L.map('map').setView([51.505, -0.09], 13);
+    var basemap = new L.StamenTileLayer("terrain");
+    map.addLayer(basemap)
 
     /////////////////////////
     // Set event listeners /
@@ -32,6 +41,20 @@ function init() {
     // About button
     $('#btnAbout').on('click', function () {
         alert("This will show a page that says a little bit about the project, where the data comes from, etc.")
+    });
+
+    // Reset map on map modal close
+    $('#mapModal').on('hidden.bs.modal', function () {
+        // Remove all layers from map
+        map.eachLayer(function(l) {
+            if (l instanceof L.FeatureGroup) {
+                map.removeLayer(l);
+                console.log('removed');
+            }
+        });
+
+        // Reset loading icon
+        $('#MapLoading').show();
     });
 }
 
@@ -72,12 +95,52 @@ function get_stations(lat, lng, locality="", state="") {
 
             // Filter List Item
             $('.filterList__item').on('click', filterItemClick);
+
+            // Update Map Modal
+            $('.stationCard__btnMap').on('click', openMapModal);
         },
         error: function (e) {
             console.log('ugh, error');
             console.log(e);
         }
     })
+}
+
+// Open Map Modal, call API for data, and display in leaflet map
+function openMapModal(e) {
+    let id = $(this).data('id');
+    $('#mapModal').modal('show');
+
+    // Fix issue with map size within modal
+    setTimeout(function() {
+        
+        $.ajax({
+            url: id,
+            success: function(r) {
+                let data = r.data;
+    
+                // Update map title
+                $('#mapModalTitle').html('<h4>Map of ' + data.callsign + '</h4><p>' + data.city + ', ' + data.state + '</p>');
+    
+                // Add layers to map
+                let transmitter = L.geoJSON(data.transmitter).addTo(map);
+                let serviceContour = L.geoJSON(data.service_contour).addTo(map);
+                let estimatedRange = L.geoJSON(data.estimated_range).addTo(map);
+    
+                // Zoom map to estimatedRange layer
+                $('#map').show();
+                map.invalidateSize();
+                map.fitBounds(estimatedRange.getBounds());
+
+                // Hide loading icon
+                $('#MapLoading').fadeOut();
+                
+                
+            }
+        })
+    }, 500);
+
+    
 }
 
 // Location search form
@@ -178,7 +241,7 @@ function stationClick(e) {
     }
 }
 
-// Filter Item List
+// Filter Item List Click
 function filterItemClick(e) {
     let filterFormat = $(this).data('format');
 

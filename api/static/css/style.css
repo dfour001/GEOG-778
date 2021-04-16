@@ -462,3 +462,30 @@ hr {
     background-color: rgba(255,255,255,0.25);
     color: black;
 }
+
+#map {
+    width: 100%;
+    height: 50vh;
+    display: none;
+}
+
+.mapModal__body {
+    padding: 0px;
+    position: relative;
+}
+
+#MapLoading {
+    position: absolute;
+    z-index: 999;
+    width: 100%;
+    height: 50vh;
+    background-color: rgba(0,0,0,0.5);
+    color: white;
+    text-align: center;
+}
+
+.mapModal__LoadingIcon {
+    position: relative;
+    top: 50%;
+    transform: translateY(-50%);
+}
