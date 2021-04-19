@@ -1,4 +1,6 @@
 var map;
+var userLat;
+var userLng;
 
 function init() {
     // Clear splashscreen after 3000 miliseconds
@@ -17,8 +19,33 @@ function init() {
     // Start Leaflet Map //
     //////////////////////
     map = L.map('map').setView([51.505, -0.09], 13);
-    var basemap = new L.StamenTileLayer("terrain");
-    map.addLayer(basemap)
+    // var basemap = new L.StamenTileLayer("terrain");
+    var basemap = L.tileLayer('https://tiles.stadiamaps.com/tiles/alidade_smooth/{z}/{x}/{y}{r}.png', {
+	maxZoom: 20,
+	attribution: '&copy; <a href="https://stadiamaps.com/">Stadia Maps</a>, &copy; <a href="https://openmaptiles.org/">OpenMapTiles</a> &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors'
+});
+    map.addLayer(basemap);
+    map.addControl(new LegendControl());
+
+    // Add legend tooltips
+    $(function(){
+        $('[data-toggle="tooltip"]').tooltip();
+    });
+    
+    // Legend Collapse Button
+    $('.collapseAction').on('click', function () {
+        let legendState = $('#btnCollapse').attr('data-status');
+        if (legendState == "open") {
+            // Collapse the legend
+            $('#btnCollapse').attr('data-status', 'closed');
+            $('#btnCollapse').attr('src', legendOpenPNG);
+            $('#legend-body').addClass('legend-hide');
+        } else {
+            $('#btnCollapse').attr('data-status', 'open');
+            $('#btnCollapse').attr('src', legendClosePNG);
+            $('#legend-body').removeClass('legend-hide');
+        }
+    });
 
     /////////////////////////
     // Set event listeners /
@@ -47,7 +74,7 @@ function init() {
     $('#mapModal').on('hidden.bs.modal', function () {
         // Remove all layers from map
         map.eachLayer(function(l) {
-            if (l instanceof L.FeatureGroup) {
+            if (l instanceof L.FeatureGroup || l instanceof L.Marker) {
                 map.removeLayer(l);
                 console.log('removed');
             }
@@ -121,11 +148,42 @@ function openMapModal(e) {
     
                 // Update map title
                 $('#mapModalTitle').html('<h4>Map of ' + data.callsign + '</h4><p>' + data.city + ', ' + data.state + '</p>');
-    
+
                 // Add layers to map
-                let transmitter = L.geoJSON(data.transmitter).addTo(map);
-                let serviceContour = L.geoJSON(data.service_contour).addTo(map);
-                let estimatedRange = L.geoJSON(data.estimated_range).addTo(map);
+                let transmitterIcon = L.icon({
+                    iconUrl: radioMarkerPNG,
+                    iconSize: [45,45],
+                    iconAnchor: [22,22]
+                });
+
+                let transmitter = L.geoJSON(data.transmitter, {
+                    pointToLayer: function(f, latlng) {
+                        return (L.marker(latlng, {icon: transmitterIcon, interactive: false}))
+                    },
+                    interactive: false
+                }).addTo(map);
+
+                let serviceContour = L.geoJSON(data.service_contour, {
+                    style: function(f) {
+                        return {
+                            color: '#35dc35',
+                            storke: '#35dc35'
+                        }
+                    },
+                    interactive: false
+                }).addTo(map);
+
+                let estimatedRange = L.geoJSON(data.estimated_range, {
+                    style: function(f) {
+                        return {
+                            color: '#fbfd6b',
+                            stroke: '#fbfd6b'
+                        }
+                    },
+                    interactive: false
+                }).addTo(map);
+
+                let userLocation = L.marker([userLat, userLng], {interactive: false}).addTo(map);
     
                 // Zoom map to estimatedRange layer
                 $('#map').show();
@@ -166,6 +224,10 @@ function submitLocation(e) {
             let state = data.region_code;
             let label = data.label;
             get_stations(lat, lng, locality, state);
+
+            // Set global vars for tracking in map
+            userLat = lat;
+            userLng = lng;
         },
         error: function(e) {
             alert('something went wrong');
@@ -196,6 +258,10 @@ function myLocation() {
                     }
                     let state = data.region_code;
                     get_stations(lat, lng, locality, state);
+
+                    // Set global vars for tracking in map
+                    userLat = lat;
+                    userLng = lng;
                 },
                 error: function() {
                     console.log('error');

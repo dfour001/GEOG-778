@@ -422,30 +422,30 @@ hr {
     box-shadow: inset -5px -5px 5px rgba(255,255,255,0.1), inset 5px 5px 10px rgba(0,0,0,0.2);
 }
 
-.filterModal__content {
+.filterModal__content, .mapModal__content {
     background-color: rgba(0,0,0,0);
 }
 
-.filterModal__header {
+.filterModal__header, .mapModal__header {
     background-color: rgba(0,0,0,0.75);
     border-bottom: none;
 }
 
-.filterModal__footer {
+.filterModal__footer, .mapModal__footer {
     background-color: rgba(0,0,0,0.75);
     border-top: none;
 }
 
-.filterModal__body {
+.filterModal__body, .mapModal__body {
     background-color: rgba(255,255,255,0.25);
     color: rgba(255,255,255,0.75);
 }
 
-.filterModal__title {
+.filterModal__title, .mapModal__title {
     color: white
 }
 
-.filterList__item {
+.filterList__item, .modalBtn {
     background-color: rgba(0,0,0,0.8);
     box-shadow: inset -2px -2px 10px rgba(0,0,0,0.25), inset 2px 2px 10px rgba(255,255,255,0.17);
     text-align: center;
@@ -454,8 +454,13 @@ hr {
     border-bottom-left-radius: 25px;
     border-top-right-radius: 3rem;
     border-bottom-right-radius: 3rem;
+    border-width: 0px;
     padding: 15px;
     padding-left: 25px;
+}
+
+.filterList__item:hover {
+    background-color: rgba(0,0,0,0.25);
 }
 
 .filterList__pill {
@@ -488,4 +493,79 @@ hr {
     position: relative;
     top: 50%;
     transform: translateY(-50%);
+}
+
+.legend__item {
+    height: 1.5em;
+    width: 2em;
+}
+
+/*
+.legend__transmitter {
+    background-color: white;
+}
+*/
+
+.legend__img {
+    max-height: 1.5em;
+}
+
+.legend__serviceContour {
+    background-color: rgba(53, 220, 53, 0.5);
+    border: 3px solid rgba(53, 220, 53, 1);
+}
+
+.legend__estimatedRange {
+    background-color: rgba(251, 253, 107, 0.5);
+    border: 3px solid rgba(251, 253, 107, 1);
+}
+
+.legend-control-container {
+    background-color: rgba(0,0,0,0.9);
+    padding: 10px;
+    border-radius: 5px;
+    font-size: 0.75rem;
+    border: 1px solid rgba(0,0,0,0.5);
+    min-width: 90px;
+    font-family: 'Oswald', sans-serif;
+}
+
+.legend-control-container hr {
+    margin-top: 10px;
+    margin-bottom: 0px
+}
+
+.legend-text {
+    font-size: 0.65rem;
+    
+}
+
+#collapse {
+    cursor: pointer;
+}
+
+#btnCollapse {
+    position: absolute;
+    top: 10px;
+    right: 5px;
+    border: 1px solid rgba(0,0,0,0.5);
+    border-radius: 5px;
+    width: 16px;
+    height: 16px;
+    cursor: pointer;
+}
+
+.legend-hide {
+    display: none;
+}
+
+
+// Map Zoom Buttons
+.leaflet-control-zoom {
+    background-color: transparent;
+}
+
+html body .leaflet-control-container .leaflet-top .leaflet-control-zoom a.leaflet-control-zoom-in, html body .leaflet-control-container .leaflet-top .leaflet-control-zoom a.leaflet-control-zoom-out {
+    background-color: rgba(0,0,0,0.9);
+    color: rgba(255,255,255,0.75);
 }

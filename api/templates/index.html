@@ -64,7 +64,7 @@
         <form id="formLocation">
             <div class="formLocation">
                 <h4>Look up a list of FM stations within broadcasting range of your location.</h4>
-                <br><hr><br>
+                <br><br><br>
                 <label for="txtLocation">Enter location to find FM stations:</label><br>
                 <input id="txtLocation" type="text" class="formLocation__txtLocation" name="txtLocation"><input type="submit" id="btnLocation" class="formLocation__btnGo" value="Go">
             </div>
@@ -98,12 +98,12 @@
     </div>
     
     <!-- Station Map Modal -->
-    <div class="modal fade" id="mapModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal fade" id="mapModal" tabindex="-1" role="dialog" aria-hidden="true">
        <div class="modal-dialog" role="document">
-         <div class="modal-content">
-            <div class="modal-header">
-               <h4 class="modal-title "" id="mapModalTitle"">Radio Station Map - Needs style</h4>
-               <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+         <div class="modal-content mapModal__content">
+            <div class="modal-header mapModal__header">
+               <h4 class="modal-title mapModal__title" id="mapModalTitle"">Radio Station Map - Needs style</h4>
+               <button type="button" class="close mapModal__btn" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
             </div>
             <div class="modal-body mapModal__body">
                 <div id="MapLoading">
@@ -116,8 +116,8 @@
                     
                </div>
             </div>
-            <div class="modal-footer">
-               <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            <div class="modal-footer mapModal__footer">
+               <button type="button" class="btn btn-secondary modalBtn" data-dismiss="modal">Close</button>
             </div>
          </div>
       </div>
@@ -135,7 +135,7 @@
             Filter List
          </div>
          <div class="modal-footer filterModal__footer">
-            <button type="button" class="btn btn-secondary filterList__item" style="border:0px" data-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-secondary modalBtn" style="border:0px" data-dismiss="modal">Close</button>
          </div>
       </div>
    </div>
@@ -149,11 +149,11 @@
                 document.write("<link rel='stylesheet' href='{{ url_for('static', filename='css/night.css') }}' type='text/css'>");
                 return
             }
-            if (5 <= currentTime && currentTime < 11) {
+            if (5 <= currentTime && currentTime < 9) {
                 document.write("<link rel='stylesheet' href='{{ url_for('static', filename='css/twilight.css') }}' type='text/css'>");
                 return
             }
-            if (11 <= currentTime && currentTime < 16) {
+            if (9 <= currentTime && currentTime < 16) {
                 document.write("<link rel='stylesheet' href='{{ url_for('static', filename='css/day.css') }}' type='text/css'>");
                 return
             }
@@ -162,7 +162,7 @@
                 return
             }
             if (20 <= currentTime && currentTime <= 24) {
-                document.write("<link rel='stylesheet' href='{{ url_for('static', filename='css/day.css') }}' type='text/css'>");
+                document.write("<link rel='stylesheet' href='{{ url_for('static', filename='css/twilight.css') }}' type='text/css'>");
                 return
             }
 
@@ -177,7 +177,14 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
 
-    <script src="{{ url_for('static', filename='js/objBuilder.js') }}"></script>
+    <!-- Paths for javascript -->
+    <script>
+        var legendClosePNG = "{{ url_for('static', filename='img/LegendClose.png') }}";
+        var legendOpenPNG = "{{ url_for('static', filename='img/LegendOpen.png') }}";
+        var radioMarkerPNG = "{{ url_for('static', filename='img/radioMarker.png') }}";
+        var markerIconPNG = "{{ url_for('static', filename='img/marker-icon.png') }}";
+    </script>
+    <script src="{{ url_for('static', filename='js/legend.js') }}"></script>
     <script src="{{ url_for('static', filename='js/main.js') }}"></script>
 </body>
 
