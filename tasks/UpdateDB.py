@@ -21,10 +21,14 @@ configPath = f'{basePath}\\config.json'
 # DDL file for creating required tables
 dbInitPath = f'{basePath}\\dbInit.sql'
 
+# Path for setting up buffer table that the API will read
+setUpBufferPath = f'{basePath}\\create_buffer.sql'
+
 # Input data paths
 fmQueryPath = f'{basePath}\\data\\fmQuery.txt'
 serviceContoursPath = f'{basePath}\\data\\FM_service_contour_current.txt'
 formatsPath = f'{basePath}\\data\\formats.csv'
+
 serviceRadiiPath = None
 
 
@@ -281,6 +285,10 @@ def update_db():
         psycopg2.extras.execute_values(cur, sql, values)
         print("Done\n")
 
+    # Set up buffer table that the API will hit for results instead of the staging tables
+    setUpBuffer = open(setUpBufferPath, 'r').read()
+    cur.execute(setUpBuffer)
+
     conn.commit()
     cur.close()
     conn.close()
@@ -289,5 +297,4 @@ def update_db():
 
 
 if __name__ == "__main__":
-    print('start test')
     update_db()

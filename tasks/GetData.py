@@ -26,7 +26,7 @@ def dl_fm_query(dataPath):
     """ Downloads radio station data from the FCC's FM Query tool """
     print("Downloading FM Query Data")
 
-    fmQueryUrl = "https://transition.fcc.gov/fcc-bin/fmq?call=&fileno=&state=VA&city=&freq=0.0&fre2=107.9&serv=-1&status=3&facid=&asrn=&class=&list=4&NextTab=Results+to+Next+Page%2FTab&dist=&dlat2=&mlat2=&slat2=&NS=N&dlon2=&mlon2=&slon2=&EW=W&size=9"
+    fmQueryUrl = "https://transition.fcc.gov/fcc-bin/fmq?call=&fileno=&state=RI&city=&freq=0.0&fre2=107.9&serv=-1&status=3&facid=&asrn=&class=&list=4&NextTab=Results+to+Next+Page%2FTab&dist=&dlat2=&mlat2=&slat2=&NS=N&dlon2=&mlon2=&slon2=&EW=W&size=9"
     
     outputPath = f"{dataPath}\\fmQuery.txt"
     with open(outputPath, 'w') as file:
@@ -115,4 +115,4 @@ def download_data():
 
 if __name__ == "__main__":
     dataPath = os.path.dirname(os.path.abspath(__file__)) + '\data'
-    dl_fm_query(dataPath)
+    download_data()

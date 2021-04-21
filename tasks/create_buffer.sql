@@ -1,6 +1,6 @@
-drop materialized view if exists mv_fm_stations;
+drop table if exists mv_fm_stations;
 
-create materialized view mv_fm_stations as (
+create table mv_fm_stations as (
 select
 	s.applicationid,
 	s.callsign,
