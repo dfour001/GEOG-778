@@ -86,10 +86,10 @@ function init() {
 }
 
 
-function get_stations(lat, lng, locality="", state="") {
+function get_stations(lat, lng, locality="") {
     // Calls the API to search for radio stations near input coordinates
     console.log('Getting radio station data for lat=' + lat + ' lng=' + lng);
-    console.log('in ' + locality + ', ' + state);
+    console.log('in ' + locality);
     // Hide formLocation if visible
     $('#locationSetup').hide();
     $('#lblWarning').hide();
@@ -113,7 +113,7 @@ function get_stations(lat, lng, locality="", state="") {
             $('#Loading').fadeOut();
             $('#StationList').fadeIn();
             $('.navbar').css("display", "flex").hide().fadeIn();
-            $('.currentLocation--white').html(locality + ', ' + state);
+            $('.currentLocation--white').html(locality);
             $('#CurrentLocation').fadeIn()
             
             // Add new event listeners:
@@ -209,21 +209,19 @@ function submitLocation(e) {
     loc = data[0].value;
 
     // Get coordinates of loc from API
-    let url = 'http://api.positionstack.com/v1/forward?access_key=4fc4bfdc142eea8b533f199ed953d029&query='+loc+'&limit=1';
+    // let url = 'http://api.positionstack.com/v1/forward?access_key=4fc4bfdc142eea8b533f199ed953d029&query='+loc+'&limit=1';
+    // Switching to geocodio api
+    let url = 'https://api.geocod.io/v1.6/geocode?api_key=228038a8bc60b30b600627abb0bbeda070370bb&q='+loc+'&limit=1';
     $.ajax({
         url: url,
         dataType: 'JSON',
         success: function(r) {
-            let data = r.data[0];
-            let lat = data.latitude;
-            let lng = data.longitude;
-            let locality = data.locality;
-            if (locality == null) {
-                locality = data.county;
-            }
-            let state = data.region_code;
-            let label = data.label;
-            get_stations(lat, lng, locality, state);
+            console.log(r)
+            let data = r;
+            let lat = data.results[0].location.lat
+            let lng = data.results[0].location.lng;
+            let locality = data.input.formatted_address;
+            get_stations(lat, lng, locality);
 
             // Set global vars for tracking in map
             userLat = lat;
@@ -245,19 +243,18 @@ function myLocation() {
         navigator.geolocation.getCurrentPosition(function (p) {
             let lat = p.coords.latitude;
             let lng = p.coords.longitude;
-            let url = "http://api.positionstack.com/v1/reverse?access_key=4fc4bfdc142eea8b533f199ed953d029&query=" + lat + "," + lng+"&limit=1";
+            // let url = "http://api.positionstack.com/v1/reverse?access_key=4fc4bfdc142eea8b533f199ed953d029&query=" + lat + "," + lng+"&limit=1";
+            // Switching to geocodio
+            let url = 'https://api.geocod.io/v1.6/reverse?q='+lat+','+lng+'&api_key=228038a8bc60b30b600627abb0bbeda070370bb&limit=1';
+            console.log(url);
             $.get({
                 url: url,
                 dataType: "JSON",
                 success: function(r) {
                     console.log(r);
-                    let data = r.data[0];
-                    let locality = data.locality;
-                    if (locality == null) {
-                        locality = data.county;
-                    }
-                    let state = data.region_code;
-                    get_stations(lat, lng, locality, state);
+                    let data = r;
+                    let locality = data.results[0].address_components.city + ', ' + data.results[0].address_components.state;
+                    get_stations(lat, lng, locality);
 
                     // Set global vars for tracking in map
                     userLat = lat;
