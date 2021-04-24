@@ -48,7 +48,7 @@ class StationCard():
             </div>
             <div class="stationCard__details d-none" data-ID-Details="{self.id}">
                 <div class='row'>
-                    <div class="col-6">
+                    <div class="col-6-sm">
                         <div class='stationCard__detailsList detailsList-{self.id}'>
                             <p class="detailsHeading">City:</p><p class="detailsInfo">{self.city.title()}</p>
                             <p class="detailsHeading">State:</p><p class="detailsInfo">{self.state}</p>
@@ -59,7 +59,7 @@ class StationCard():
                             </div>
                         </div>
                     </div>
-                    <div class="col-6 stationCard__logoHolder">
+                    <div class="col-6-sm stationCard__logoHolder">
                         <img class="logo-{self.id} stationCard__logo stationCard__logo--blurred" src=''>
                         <img class="logo-{self.id} stationCard__logo" src=''>
                     </div>
