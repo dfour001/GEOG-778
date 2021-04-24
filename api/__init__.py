@@ -4,7 +4,7 @@ import json
 import os
 
 # Path to database configuration file in the tasks folder
-configPath = os.path.abspath(os.path.join(os.path.dirname( __file__ ), '..', 'tasks')) + '\\config.json'
+configPath = os.path.abspath(os.path.join(os.path.dirname( __file__ ), '..', 'tasks')) + '/config.json'
 dbConfig = json.load(open(configPath))['database']
 
 app = Flask(__name__)
