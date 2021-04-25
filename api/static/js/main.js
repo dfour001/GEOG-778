@@ -67,7 +67,8 @@ function init() {
 
     // About button
     $('#btnAbout').on('click', function () {
-        alert("This will show a page that says a little bit about the project, where the data comes from, etc.")
+        $('#aboutModal').modal('show');
+        // alert('test');
     });
 
     // Reset map on map modal close
@@ -246,7 +247,6 @@ function myLocation() {
             // let url = "http://api.positionstack.com/v1/reverse?access_key=4fc4bfdc142eea8b533f199ed953d029&query=" + lat + "," + lng+"&limit=1";
             // Switching to geocodio
             let url = 'https://api.geocod.io/v1.6/reverse?q='+lat+','+lng+'&api_key=228038a8bc60b30b600627abb0bbeda070370bb&limit=1';
-            console.log(url);
             $.get({
                 url: url,
                 dataType: "JSON",

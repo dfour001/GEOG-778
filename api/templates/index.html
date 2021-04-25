@@ -122,20 +122,37 @@
 
    <!-- Filter Modal -->
    <div class="modal fade" id="filterModal" tabindex="-1" role="dialog" aria-labelledby="filterModal" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content filterModal__content">
+                <div class="modal-header filterModal__header">
+                    <h4 class="modal-title filterModal__title">Filter By Format</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                </div>
+                <div id="FilterList" class="modal-body filterModal__body">
+                    Filter List
+                </div>
+                <div class="modal-footer filterModal__footer">
+                    <button type="button" class="btn btn-secondary modalBtn" style="border:0px" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+   <!-- About Modal -->
+   <div class="modal fade" id="aboutModal" tabindex="-1" role="dialog" aria-labelledby="aboutModal" aria-hidden="true">
     <div class="modal-dialog" role="document">
       <div class="modal-content filterModal__content">
          <div class="modal-header filterModal__header">
-            <h4 class="modal-title filterModal__title">Filter By Format</h4>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title filterModal__title">About Frequency Finder</h4>
          </div>
-         <div id="FilterList" class="modal-body filterModal__body">
-            Filter List
+         <div class="modal-body filterModal__body" style="background-color: rgba(0,0,0,0.55)">
+            <p>Frequency Finder was created by Daniel Fourquet as his practicum project for the GIS development masters program at the University of Wisconsin-Madison.  More details about the project can be found in the <a href='https://youtu.be/WMTME8dhMXs' target="_blank">video presentation</a> and the <a href="https://www.danielfourquet.com/maps/778/GEOG778_ExecutiveSummary.pdf" target="_blank">executive summary</a>.</p>
          </div>
          <div class="modal-footer filterModal__footer">
             <button type="button" class="btn btn-secondary modalBtn" style="border:0px" data-dismiss="modal">Close</button>
          </div>
       </div>
-   </div>
+   
 </div>
 
     <script>
